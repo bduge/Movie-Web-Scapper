@@ -57,12 +57,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="140" />
+          <entry key="py" value="141" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="140" />
+          <entry key="Python" value="141" />
         </counts>
       </usages-collector>
     </session>
@@ -75,7 +75,7 @@
             <state relative-caret-position="119">
               <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
               <folding>
-                <element signature="e#0#21#0" expanded="true" />
+                <element signature="e#1#22#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -101,8 +101,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="725" />
-    <option name="y" value="560" />
+    <option name="x" value="630" />
+    <option name="y" value="165" />
     <option name="width" value="3150" />
     <option name="height" value="1450" />
   </component>
@@ -142,7 +142,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="290" y="224" width="1260" height="580" extended-state="0" />
+    <frame x="252" y="66" width="1260" height="580" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24979591" />
@@ -173,7 +173,7 @@
         <state relative-caret-position="119">
           <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
           <folding>
-            <element signature="e#0#21#0" expanded="true" />
+            <element signature="e#1#22#0" expanded="true" />
           </folding>
         </state>
       </provider>
