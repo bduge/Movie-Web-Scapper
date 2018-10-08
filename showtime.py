@@ -12,6 +12,7 @@ runtime = []
 release = []
 rating = []
 genre = []
+showtimes=[]
 
 
 def get_year(s):
@@ -34,7 +35,8 @@ for movie in movies_list:
     c = movie.find('span', attrs={'name': 'runtime'}).attrs['data-value']
     d = movie.find('span', attrs={'name':'release_date'}).attrs['data-value']
     e = movie.find('span', attrs={'class': 'certificate'}).string
-    f = movie.find('span', attrs={'class': "genre"}).string.strip()
+    f = movie.find('span', attrs={'class': 'genre'}).string.strip()
+    g = movie.find('div', attrs={'class': 'title'}).a.get('href')
     year = get_year(d)
 
     movies.append(a)
@@ -43,6 +45,7 @@ for movie in movies_list:
     release.append(year)
     rating.append(e)
     genre.append(f)
+    showtimes.append("https://www.imdb.com"+g)
 
 print("Here are the movies playing near you: \n")
 for x in range(0, len(movies)):
@@ -55,6 +58,11 @@ while not(isinstance(selection, int)) or selection < 1 or selection > len(movies
     print("Your selection was not valid, please try again: ")
     selection = get_selection()
 
+detailedMovie = showtimes[selection-1]
+page2 = urllib.request.urlopen(detailedMovie)
+soup2 = BeautifulSoup(page2, 'html.parser')
+
+print(soup2.prettify())
 
 df = DataFrame({'Movies Playing': movies, 'Rating': review,
                 'Runtime (min)': runtime, 'Release Year': release})
@@ -63,6 +71,7 @@ try:
 except PermissionError:
     print("There was an error creating the spreadsheet, please make sure"
           " the file is not currently open.")
+
 
 
 
