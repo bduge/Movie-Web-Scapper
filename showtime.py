@@ -12,11 +12,15 @@ runtime = []
 release = []
 rating = []
 genre = []
-showtimes=[]
+showtimes = []
 
 
 def get_year(s):
     return s[:4]
+
+
+def get_time(s):
+    return s[-5:]
 
 
 def get_selection():
@@ -62,7 +66,33 @@ detailedMovie = showtimes[selection-1]
 page2 = urllib.request.urlopen(detailedMovie)
 soup2 = BeautifulSoup(page2, 'html.parser')
 
-print(soup2.prettify())
+theaters_list = soup2.findAll('div', attrs={'class': 'list detail'})
+
+times = []
+
+print("Showtimes for " + movies[selection-1] + " : \n")
+
+for theater in theaters_list:
+    odd = theater.findAll('div', attrs={'class', 'list_item odd'})
+    even = theater.findAll('div', attrs={'class', 'list_item even'})
+
+    for x in odd:
+        print(x.find('span', attrs={'itemprop': 'name'})
+              .find(text=True, recursive=False))
+        print(x.find('span', attrs={'itemprop': 'streetAddress'}).string)
+        times = x.findAll('meta', attrs={'itemprop': 'startDate'})
+        for y in times:
+            print(get_time(y.attrs['content']) + '  ', end="", flush=True)
+        print('\n')
+
+    for x in even:
+        print(x.find('span', attrs={'itemprop': 'name'})
+              .find(text=True, recursive=False))
+        print(x.find('span', attrs={'itemprop': 'streetAddress'}).string)
+        times = x.findAll('meta', attrs={'itemprop': 'startDate'})
+        for y in times:
+            print(get_time(y.attrs['content']) + '  ', end="", flush=True)
+        print('\n')
 
 df = DataFrame({'Movies Playing': movies, 'Rating': review,
                 'Runtime (min)': runtime, 'Release Year': release})
