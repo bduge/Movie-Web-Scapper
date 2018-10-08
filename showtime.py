@@ -7,35 +7,45 @@ page = urllib.request.urlopen(imdb)
 soup = BeautifulSoup(page, 'html.parser')
 
 movies = []
-ratings = []
+review = []
 runtime = []
 release = []
+rating = []
+genre = []
 
 
 def get_year(s):
     return s[:4]
 
 
-movies_list = soup.find_all('div', attrs={'class': 'hidden inline-sort-params'})
+movies_list = soup.find_all('div', attrs={'class': 'lister-item mode-grid'})
 
 for movie in movies_list:
     a = movie.find('span', attrs={'name': 'alpha'}).attrs['data-value']
     b = movie.find('span', attrs={'name': 'user_rating'}).attrs['data-value']
     c = movie.find('span', attrs={'name': 'runtime'}).attrs['data-value']
     d = movie.find('span', attrs={'name':'release_date'}).attrs['data-value']
+    e = movie.find('span', attrs={'class': 'certificate'}).string
+    f = movie.find('span', attrs={'class': "genre"}).string.strip()
     year = get_year(d)
+
     movies.append(a)
-    ratings.append(b)
+    review.append(b)
     runtime.append(c)
     release.append(year)
-
-df = DataFrame({'Movies Playing': movies, 'Rating': ratings,
-                'Runtime (min)': runtime, 'Release Year': release})
+    rating.append(e)
+    genre.append(f)
 
 print("Here are the movies playing near you: \n")
 for x in range(0, len(movies)):
-    print(str(x+1) + ".  {}  {}/10  Runtime: {}  Release Year: {}".format(movies[x], ratings[x], runtime[x], release[x]))
+    print(str(x+1) + ". {}  {}/10  Runtime: {} \n    Release Year: {}  Genre: {}  {}\n"
+          .format(movies[x], review[x], runtime[x], release[x], genre[x], rating[x]))
 
+print("Please select which movie you would like to watch")
+
+
+df = DataFrame({'Movies Playing': movies, 'Rating': review,
+                'Runtime (min)': runtime, 'Release Year': release})
 try:
     df.to_excel('showtimes.xlsx', sheet_name='sheet1', index=False)
 except PermissionError:
