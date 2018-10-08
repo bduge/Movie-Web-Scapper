@@ -18,6 +18,14 @@ def get_year(s):
     return s[:4]
 
 
+def get_selection():
+    try:
+        s = int(input())
+        return s
+    except ValueError:
+        print("")
+
+
 movies_list = soup.find_all('div', attrs={'class': 'lister-item mode-grid'})
 
 for movie in movies_list:
@@ -41,7 +49,11 @@ for x in range(0, len(movies)):
     print(str(x+1) + ". {}  {}/10  Runtime: {} \n    Release Year: {}  Genre: {}  {}\n"
           .format(movies[x], review[x], runtime[x], release[x], genre[x], rating[x]))
 
-print("Please select which movie you would like to watch")
+print("Please select a movie: ")
+selection = get_selection()
+while not(isinstance(selection, int)) or selection < 1 or selection > len(movies):
+    print("Your selection was not valid, please try again: ")
+    selection = get_selection()
 
 
 df = DataFrame({'Movies Playing': movies, 'Rating': review,
