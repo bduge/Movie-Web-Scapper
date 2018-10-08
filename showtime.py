@@ -29,14 +29,21 @@ for movie in movies_list:
     runtime.append(c)
     release.append(year)
 
-
 df = DataFrame({'Movies Playing': movies, 'Rating': ratings,
                 'Runtime (min)': runtime, 'Release Year': release})
+
+print("Here are the movies playing near you: \n")
+for x in range(0, len(movies)):
+    print(str(x+1) + ".  {}  {}/10  Runtime: {}  Release Year: {}".format(movies[x], ratings[x], runtime[x], release[x]))
+
 try:
     df.to_excel('showtimes.xlsx', sheet_name='sheet1', index=False)
 except PermissionError:
     print("There was an error creating the spreadsheet, please make sure"
           " the file is not currently open.")
+
+
+
 
 
 
