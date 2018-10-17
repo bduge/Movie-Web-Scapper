@@ -2,10 +2,12 @@ from pandas import DataFrame
 import urllib.request
 from bs4 import BeautifulSoup
 
+# initializes variables used for beautifulsoup
 imdb = "https://www.imdb.com/showtimes/location?ref_=sh_lc"
 page = urllib.request.urlopen(imdb)
 soup = BeautifulSoup(page, 'html.parser')
 
+# initializes arrays used for storing scrapped information
 movies = []
 review = []
 runtime = []
@@ -15,15 +17,15 @@ genre = []
 showtimes = []
 
 
-def get_year(s):
+def get_year(s):  # formats date string to return the year
     return s[:4]
 
 
-def get_time(s):
+def get_time(s):  # formats time string to return the length of movie in minutes
     return s[-5:]
 
 
-def get_selection():
+def get_selection():  # helper function for the user to select a movie they're interested in watching
     try:
         s = int(input())
         return s
@@ -33,7 +35,7 @@ def get_selection():
 
 movies_list = soup.find_all('div', attrs={'class': 'lister-item mode-grid'})
 
-for movie in movies_list:
+for movie in movies_list:   # uses a loop to extract the information of a movie for all movies playing
     a = movie.find('span', attrs={'name': 'alpha'}).attrs['data-value']
     b = movie.find('span', attrs={'name': 'user_rating'}).attrs['data-value']
     c = movie.find('span', attrs={'name': 'runtime'}).attrs['data-value']
@@ -49,7 +51,7 @@ for movie in movies_list:
     release.append(year)
     rating.append(e)
     genre.append(f)
-    showtimes.append("https://www.imdb.com"+g)
+    showtimes.append("https://www.imdb.com"+g)  # formats the string to produce a url based on the link within html file
 
 print("Here are the movies playing near you: \n")
 for x in range(0, len(movies)):
@@ -101,7 +103,6 @@ try:
 except PermissionError:
     print("There was an error creating the spreadsheet, please make sure"
           " the file is not currently open.")
-
 
 
 
