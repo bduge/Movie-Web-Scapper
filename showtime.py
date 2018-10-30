@@ -1,12 +1,21 @@
 from pandas import DataFrame
+import urllib.error
 import urllib.request
 from bs4 import BeautifulSoup
 
-postcode = input("Please enter your postal code so we may show you relevant showtime information (no spaces)")
-
 # initializes variables used for beautifulsoup
+valid = False
+postcode = input("Please enter your postal code so we may show you relevant showtime information (no spaces): ")
 imdb = "https://www.imdb.com/showtimes/location/CA/" + postcode + "?ref_=sh_lc"
-page = urllib.request.urlopen(imdb)
+
+while not valid:
+    try:
+        page = urllib.request.urlopen(imdb)
+        valid = True
+    except urllib.error.HTTPError:
+        postcode = input("Please enter a valid postal code: ")
+        imdb = "https://www.imdb.com/showtimes/location/CA/" + postcode + "?ref_=sh_lc"
+
 soup = BeautifulSoup(page, 'html.parser')
 
 # initializes arrays used for storing scrapped information
@@ -110,6 +119,7 @@ for theater in theaters_list:
 
 df = DataFrame({'Movies Playing': movies, 'Rating': review,
                 'Runtime (min)': runtime, 'Release Year': release})
+
 try:
     df.to_excel('showtimes.xlsx', sheet_name='sheet1', index=False)
 except PermissionError:
